@@ -194,7 +194,12 @@ def runModel(vintage,climate,eplus_path,weather_file,eplus_file,param_value,outp
             energy_data_err = csv.writer(csvfile, delimiter=',')
             energy_data_err.writerow(climate+eplus_file)
             
-    rmtree('./results/'+vintage+climate+output_file+eplus_file.split('.')[0])
+    while 1:
+        try:
+            rmtree('./results/'+vintage+climate+output_file+eplus_file.split('.')[0])
+            break
+        except:
+            pass
     output.put([])
 
 #################################################################################
@@ -205,7 +210,7 @@ def runModel(vintage,climate,eplus_path,weather_file,eplus_file,param_value,outp
 def parallelSimu(climate,round_num,vintage):
     #record the start time
     start = time.time()
-    eplus_path ='/usr/EnergyPlus/energyplus-8.7.0'
+    eplus_path ='energyplus8'
     weather_file ='./Model_pre/'+climate+'.epw'
     output_file = 'temp'
     # get parameter name and parameter value    
