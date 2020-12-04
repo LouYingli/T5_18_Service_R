@@ -5,7 +5,7 @@ Created on Wed Nov 20 12:33:30 2019
 @author: Yingli Lou
 """
 ###############################################################
-def information(file_path,schedule_name):  
+def information(file_path,schedule_name,vintage):  
     print schedule_name
     f = open (file_path,'rb')
     lines = f.readlines()
@@ -40,13 +40,13 @@ def information(file_path,schedule_name):
         for j in range(4*num):
             value_15min.append(value[i]+',')   
 
-    f = open ('./results/scheduleInformation/schedule.csv', 'ab')
+    f = open ('./results/scheduleInformation/'+vintage+'_schedule.csv', 'ab')
     f.writelines(value_15min)
     f.writelines('\n')
     f.close()
     
 #this function is designed to get schedule information(15 min intervel) exclude design day schedule
-def schedule (file_path):
+def schedule (file_path,vintage):
     f = open (file_path,'rb')
     lines = f.readlines()
     f.close()
@@ -57,7 +57,7 @@ def schedule (file_path):
             schedule_name.append(lines[i+1].split(',')[0].replace(' ',''))
   
     for i in range(len(schedule_name)):
-        information(file_path,schedule_name[i])
+        information(file_path,schedule_name[i],vintage)
 ########################################################################################################       
     
 # This function is designed to change the schedule to 15min interval

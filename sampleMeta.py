@@ -14,9 +14,9 @@ import numpy as np
 
 #num is the number of the samples
 #cz is climate zone
-def sampleMeta(num,cz):
+def sampleMeta(num,cz,vintage):
     #read the variable table, "variable"
-    data_set_temp = np.genfromtxt('./variable.csv',
+    data_set_temp = np.genfromtxt('./'+vintage+'_variable.csv',
                                   skip_header=1,
                                   dtype=str,
                                   delimiter=',')

@@ -34,7 +34,7 @@ def modifyIDF(vintage,climate,param_name,param_value,order_model):
     lines=f.readlines()
     f.close()
     
-    f = open('./results/scheduleInformation/schedule.csv','rb')
+    f = open('./results/scheduleInformation/'+vintage+'_schedule.csv','rb')
     schedule=f.readlines()
     f.close()      
 
@@ -199,7 +199,8 @@ def runModel(vintage,climate,eplus_path,weather_file,eplus_file,param_value,outp
             rmtree('./results/'+vintage+climate+output_file+eplus_file.split('.')[0])
             break
         except:
-            pass
+            pass            
+
     output.put([])
 
 #################################################################################
@@ -211,10 +212,11 @@ def parallelSimu(climate,round_num,vintage):
     #record the start time
     start = time.time()
     eplus_path ='energyplus8'
+    #eplus_path ='/usr/EnergyPlus/energyplus-8.7.0'
     weather_file ='./Model_pre/'+climate+'.epw'
     output_file = 'temp'
     # get parameter name and parameter value    
-    f = open('./variable.csv')
+    f = open('./'+vintage+'_variable.csv')
     lines = f.readlines()
     f.close()
     param_name = []

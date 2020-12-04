@@ -10,7 +10,6 @@ from shutil import copyfile, rmtree
 # list all the inputs which can be modify 
 # define the climate zones that need to be considered
 climate = ['1A','2A','2B','3A','3B','3C','4A','4B','4C','5A','5B','6A','6B','7A','8A']# define the needed climate zones
-
 # target output (site EUI) (KBtu/ft2)
 y_best_post = [40.60,40.60,39.72,41.48,39.72,36.19,45.01,40.60,41.48,47.66,43.25,52.96,47.66,56.49,75.02]
 y_best_pre = [44.16,44.16,43.20,45.12,43.20,39.36,48.96,44.16,45.12,51.84,47.04,57.60,51.84,61.44,81.61]
@@ -23,11 +22,12 @@ pathway = os.getcwd()
 import scheduleChange as schedule
 os.chdir(pathway)
 ## 0.1.get schedule information(15 min intervel) exclude design day schedule
-schedule.schedule ('./sourceFolder_pre/1A.idf')
+schedule.schedule ('./sourceFolder_pre/1A.idf','pre')
+schedule.schedule ('./sourceFolder_post/1A.idf','post')
 ## 0.2.change the schedule to 15min interval    
 for cz in climate:
-    schedule.modify('./sourceFolder_pre/'+cz+'.idf','./results/scheduleInformation/schedule.csv',cz,'pre')
-    schedule.modify('./sourceFolder_post/'+cz+'.idf','./results/scheduleInformation/schedule.csv',cz,'post')
+    schedule.modify('./sourceFolder_pre/'+cz+'.idf','./results/scheduleInformation/pre_schedule.csv',cz,'pre')
+    schedule.modify('./sourceFolder_post/'+cz+'.idf','./results/scheduleInformation/post_schedule.csv',cz,'post')
 
 ######################################################################################
 #1.sampleing: get different value of model input (LHM)
@@ -35,7 +35,7 @@ for cz in climate:
 import sampleMeta as samp
 os.chdir(pathway)
 
-data_set,param_values = samp.sampleMeta(num_sample,'1A') 
+data_set,param_values = samp.sampleMeta(num_sample,'1A','pre') 
 with open('./results/samples/data_set.csv', 'wb') as csvfile:
     for row in data_set:
         data = csv.writer(csvfile, delimiter=',')
@@ -73,8 +73,8 @@ with open('./results/energy_data_post.csv', 'rb') as csvfile:
         
 err=100000
 ind_best=0
-#num=len(param_values) # sample number
-num=6 # sample number
+num=len(param_values) # sample number
+
 
 for i in range(1,num+1):
     temp=0
